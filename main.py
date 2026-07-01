@@ -5,22 +5,15 @@ from typing import List
 app = FastAPI(title="Simple FastAPI REST API")
 
 
-# -----------------------------
-# Data Model
-# -----------------------------
 class Todo(BaseModel):
     id: int
     title: str
     completed: bool = False
 
 
-# Temporary in-memory database
 todos: List[Todo] = []
 
 
-# -----------------------------
-# Root API
-# -----------------------------
 @app.get("/")
 def root():
     return {
@@ -28,10 +21,6 @@ def root():
     }
 
 
-# -----------------------------
-# Create Todo
-# POST /todos
-# -----------------------------
 @app.post("/todos")
 def create_todo(todo: Todo):
     for existing_todo in todos:
@@ -45,10 +34,6 @@ def create_todo(todo: Todo):
     }
 
 
-# -----------------------------
-# Get All Todos
-# GET /todos
-# -----------------------------
 @app.get("/todos")
 def get_all_todos():
     return {
@@ -57,10 +42,6 @@ def get_all_todos():
     }
 
 
-# -----------------------------
-# Get Todo By ID
-# GET /todos/{todo_id}
-# -----------------------------
 @app.get("/todos/{todo_id}")
 def get_todo(todo_id: int):
     for todo in todos:
@@ -70,10 +51,6 @@ def get_todo(todo_id: int):
     raise HTTPException(status_code=404, detail="Todo not found")
 
 
-# -----------------------------
-# Update Todo
-# PUT /todos/{todo_id}
-# -----------------------------
 @app.put("/todos/{todo_id}")
 def update_todo(todo_id: int, updated_todo: Todo):
     for index, todo in enumerate(todos):
@@ -87,10 +64,6 @@ def update_todo(todo_id: int, updated_todo: Todo):
     raise HTTPException(status_code=404, detail="Todo not found")
 
 
-# -----------------------------
-# Delete Todo
-# DELETE /todos/{todo_id}
-# -----------------------------
 @app.delete("/todos/{todo_id}")
 def delete_todo(todo_id: int):
     for index, todo in enumerate(todos):
