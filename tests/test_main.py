@@ -142,3 +142,18 @@ def test_delete_todo_not_found():
 
     assert response.status_code == 404
     assert response.json()["detail"] == "Todo not found"
+
+def test_intentional_failure_wrong_root_message():
+    response = client.get("/")
+
+    assert response.status_code == 200
+    assert response.json() == {
+        "message": "This message is intentionally wrong"
+    }
+
+
+def test_intentional_failure_wrong_todo_count():
+    response = client.get("/todos")
+
+    assert response.status_code == 200
+    assert response.json()["count"] == 999
