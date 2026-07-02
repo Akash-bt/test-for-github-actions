@@ -1,0 +1,25 @@
+name: FastAPI Application CICD
+
+on:
+  push:
+    branches: ["master"]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: |
+          docker build -t fastapi-app .
+
+      - name: Login to Docker Hub
+        run: |
+          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Pushing the image into Dockerhub
+        run: |
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/fastapi-app:latest
