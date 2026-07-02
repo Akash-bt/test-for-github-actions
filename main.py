@@ -69,6 +69,7 @@ def delete_todo(todo_id: int):
     for index, todo in enumerate(todos):
         if todo.id == todo_id:
             deleted_todo = todos.pop(index)
+            print("this is a test line to check if the master branch is actually protected or not")
             return {
                 "message": "Todo deleted successfully",
                 "todo": deleted_todo
